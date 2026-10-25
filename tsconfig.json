@@ -7,9 +7,11 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
-     "esModuleInterop": true,
+    "esModuleInterop": true,
     "strict": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "experimentalDecorators": true,
     "target": "es2020",
     "typeRoots": [
@@ -20,12 +22,14 @@
       "dom"
     ],
     "plugins": [
-      { "name": "tslint-language-service"}
+      {
+        "name": "tslint-language-service"
+      }
     ],
-    
   },
   "include": [
-      "src",
-      "tests"
-    ]
+    "src",
+    "tests",
+    "page-objects/pageNavigation.ts"
+  ]
 }

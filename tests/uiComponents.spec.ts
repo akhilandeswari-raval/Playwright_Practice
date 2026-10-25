@@ -232,3 +232,28 @@ test('Sliders', async ({ page }) => {
     await page.mouse.up();
     await expect(tempBox).toContainText('30');
 });
+
+test('iFrame', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click();
+    await page.getByText('Dialog').click();
+
+    const iframeElement = page.frameLocator('[data-cy="esc-close-iframe"]');
+    await iframeElement.getByRole('button', { name: 'Open Dialog with esc close' }).click();
+
+    await page.getByRole('button', { name: 'Dismiss Dialog' }).click();
+});
+
+test('Drag & Drop', async ({ page }) => {
+    await page.getByText('Extra Components').click();
+    await page.getByText('Drag & Drop').click();
+
+    await page.getByRole('textbox', { name: 'item' }).fill('This is a test');
+    await page.getByRole('button', { name: 'Add' }).click();
+
+    await page.getByText('This is a test').dragTo(page.locator('#drop-list'));
+
+    await page.getByText('Get Groceries').hover();
+    await page.mouse.down();
+    await page.locator('#drop-list').hover();
+    await page.mouse.up();
+});
