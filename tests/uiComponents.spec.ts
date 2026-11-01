@@ -174,7 +174,7 @@ test('Working with Date Pickers Javascript', async ({ page }) => {
     await dateInput.click();
 
     const dateToSelect = new Date();
-    dateToSelect.setDate(dateToSelect.getDate() + 45); // Select a date 5 days from today
+    dateToSelect.setDate(dateToSelect.getDate() + 5); // Select a date 5 days from today
 
     // await page.locator('[class="day-cell ng-star-inserted"]').getByText(dateToSelect.getDate().toString(), { exact: true }).click(); //This is effective when we need to select by a dateInput. But not when we need to select a future dateInput.
 

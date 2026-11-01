@@ -1,26 +1,33 @@
 import { test, Page } from '@playwright/test';
+import { step } from '../helpers/testStepDecorator';
+import { link } from 'node:fs';
 
 export class PageNavigation {
     private readonly page: Page;
     constructor(page: Page) {
         this.page = page;
     }
-    async navigateToFormsPage(menuItem: string) {
+
+    @step
+    async navigateToFormsPage(menuItem: string): Promise<void> {
         await this.checkIfAreaIsExpanded('Forms');
         await this.page.getByText(menuItem).click();
     }
 
-    async navigateToModalsandOverlays(menuItem: string) {
+    @step
+    async navigateToModalsandOverlays(menuItem: string): Promise<void> {
         await this.checkIfAreaIsExpanded('Modal & Overlays');
         await this.page.getByText(menuItem).click();
     }
 
-    async navigateToTablesandData(menuItem: string) {
+    @step
+    async navigateToTablesandData(menuItem: string): Promise<void> {
         await this.checkIfAreaIsExpanded('Tables & Data');
         await this.page.getByText(menuItem).click();
     }
 
-    async navigateToExtraComponents(menuItem: string) {
+    @step
+    async navigateToExtraComponents(menuItem: string): Promise<void> {
         await this.checkIfAreaIsExpanded('Extra Components');
         await this.page.getByText(menuItem).click();
     }
@@ -33,5 +40,17 @@ export class PageNavigation {
         } else if (ariaExpanded == 'false') {
             await area.click();
         }
+    }
+
+    async loginToConduitPage() {
+        await this.page.goto('https://conduit.bondaracademy.com/');
+        await this.page.getByText('Sign in').click();
+        await this.page.getByRole('textbox', { name: 'Email' }).fill('araval@testing.com');
+        await this.page.getByRole('textbox', { name: 'Password' }).fill('Testing@1234');
+        await this.page.getByRole('button', { name: 'Sign in' }).click();
+    }
+
+    async loginToConduitWithAPI() {
+
     }
 }

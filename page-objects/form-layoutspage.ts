@@ -1,4 +1,5 @@
 import { test, Page } from '@playwright/test';
+import { step } from '../helpers/testStepDecorator';
 
 export class FormLayoutsPage {
     private readonly page: Page;
@@ -7,6 +8,7 @@ export class FormLayoutsPage {
         this.page = page;
     }
 
+    @step
     async usingTheGrid(email: string, password: string, option: string) {
         const usingGridCard = this.page.locator('nb-card', { hasText: "Using the Grid" });
         await usingGridCard.getByRole('textbox', { name: 'Email' }).fill(email);
@@ -21,6 +23,7 @@ export class FormLayoutsPage {
      * @param email 
      * @param rememberMeCheckbox 
      */
+    @step
     async usingInlineForm(username: string, email: string, rememberMeCheckbox: boolean) {
         const inlineFormCard = this.page.locator('nb-card', { hasText: "Inline form" });
         await inlineFormCard.getByRole('textbox', { name: 'Jane Doe' }).fill(username);

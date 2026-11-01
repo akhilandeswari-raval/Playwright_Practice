@@ -7,12 +7,12 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": true,
     "types": [
       "node"
     ],
-    "experimentalDecorators": true,
     "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
