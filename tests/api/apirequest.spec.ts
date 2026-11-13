@@ -49,9 +49,10 @@ test('Deleting Posts using API Requests', async ({ page, request }) => {
     expect(newArticle.status()).toEqual(201);
 
     pom.pageNavigation.loginToConduitPage();
+    await page.getByText('Home').click();
 
     const firstArticle = await page.locator('.preview-link h1').first();
-    await expect(firstArticle).toContainText('hello world', { ignoreCase: true });
+    await expect(firstArticle).toContainText('HELLO WORLD', { ignoreCase: true });
 
     const newArticleJSON = await newArticle.json();
     const slug = newArticleJSON.article.slug;

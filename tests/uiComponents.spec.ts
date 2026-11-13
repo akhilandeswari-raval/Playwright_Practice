@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { table } from 'node:console';
 import { link } from 'node:fs';
+import path from 'node:path';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://playground.bondaracademy.com/pages/iot-dashboard');
@@ -160,10 +161,13 @@ test('Working with Date Pickers', async ({ page }) => {
     await page.locator('.day-cell:not(.bounding-month)').getByText('11').click();
 
     await dateInput.click();
-    await page.getByRole('button', { name: 'October 2026' }).click();
+    const monthAndYear = await page.getByRole('button', { name: 'November 2026' });
+    monthAndYear.click();
+    await page.screenshot({ path: 'screenshots/datepicker.png' });
     await page.locator('nb-calendar-picker').getByText('2026').click();
     await page.locator('nb-calendar-picker').getByText('AUG').click();
     await page.locator('[class="day-cell ng-star-inserted"]').getByText('6', { exact: true }).click();
+    await expect(page.getByPlaceholder('Form picker')).toHaveScreenshot('screenshots/datepicker.png');
 
 });
 
