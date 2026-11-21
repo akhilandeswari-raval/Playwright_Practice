@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { PageObjectManager } from '../../page-objects/page-object-manager';
+import { URLs } from '../../utils/env';
 
 test('Passing API Requests', async ({ page, request }) => {
     const pom = new PageObjectManager(page);
-    const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+    const loginResponse = await request.post(`${URLs.conduit}/api/users/login`, {
         data: { "user": { "email": "araval@testing.com", "password": "Testing@1234" } }
     });
 
@@ -11,7 +12,7 @@ test('Passing API Requests', async ({ page, request }) => {
     const jsonResponse = await loginResponse.json();
     const token = jsonResponse.user.token;
 
-    const newArticle = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+    const newArticle = await request.post(`${URLs.conduit}/api/articles/`, {
         data: { "article": { "title": "HELLO WORLD", "description": "WORLD", "body": "HELLO,\nHOW ARE YOU ?", "tagList": ["NEW ARTICLE"] } },
         headers: {
             Authorization: `Token ${token}`
@@ -26,13 +27,13 @@ test('Passing API Requests', async ({ page, request }) => {
     await expect(firstArticle).toContainText('hello world', { ignoreCase: true });
     await page.getByText('hello world', { exact: false }).click();
     await page.getByRole('button', { name: 'Delete Article' }).nth(1).click();
-    await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0');
+    await page.waitForResponse(`${URLs.conduit}/api/articles?limit=10&offset=0`);
     await expect(firstArticle).not.toContainText('hello world', { ignoreCase: true });
 })
 
 test('Deleting Posts using API Requests', async ({ page, request }) => {
     const pom = new PageObjectManager(page);
-    const loginResponse = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+    const loginResponse = await request.post(`${URLs.conduit}/api/users/login`, {
         data: { "user": { "email": "araval@testing.com", "password": "Testing@1234" } }
     });
 
@@ -40,7 +41,7 @@ test('Deleting Posts using API Requests', async ({ page, request }) => {
     const jsonResponse = await loginResponse.json();
     const token = jsonResponse.user.token;
 
-    const newArticle = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+    const newArticle = await request.post(`${URLs.conduit}/api/articles/`, {
         data: { "article": { "title": "HELLO WORLD", "description": "WORLD", "body": "HELLO,\nHOW ARE YOU ?", "tagList": ["NEW ARTICLE"] } },
         headers: {
             Authorization: `Token ${token}`
@@ -57,7 +58,7 @@ test('Deleting Posts using API Requests', async ({ page, request }) => {
     const newArticleJSON = await newArticle.json();
     const slug = newArticleJSON.article.slug;
 
-    const deleteArticle = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slug}`, {
+    const deleteArticle = await request.delete(`${URLs.conduit}/api/articles/${slug}`, {
         headers: {
             Authorization: `Token ${token}`
         }
@@ -65,7 +66,7 @@ test('Deleting Posts using API Requests', async ({ page, request }) => {
 
     expect(deleteArticle.status()).toEqual(204);
     await page.reload();
-    await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0');
+    await page.waitForResponse(`${URLs.conduit}/api/articles?limit=10&offset=0`);
     await expect(firstArticle).not.toContainText('hello world', { ignoreCase: true });
 
 })

@@ -1,10 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { table } from 'node:console';
-import { link } from 'node:fs';
-import path from 'node:path';
+import { URLs } from '../utils/env';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://playground.bondaracademy.com/pages/iot-dashboard');
+    await page.goto(URLs.playground);
+    console.log('Navigated to Playground URL: ', process.env.PLAYGROUND_URL);
 });
 
 test.describe('UI Components', () => {

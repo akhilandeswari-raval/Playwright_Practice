@@ -1,15 +1,16 @@
 import { test, expect } from '@playwright/test';
 import tags from './../../testdata/apitags.json';
+import { URLs } from '../../utils/env';
 
 test.beforeEach(async ({ page }) => {
 
-    await page.route('https://conduit-api.bondaracademy.com/api/tags', async (route) => {
+    await page.route(`${URLs.conduit}/api/tags`, async (route) => {
         await route.fulfill({
             json: tags
         });
     })
 
-    await page.route('https://conduit-api.bondaracademy.com/api/articles*', async (route) => {
+    await page.route(`${URLs.conduit}/api/articles*`, async (route) => {
         const response = await route.fetch();
         const responseJSON = await response.json();
         responseJSON.articles[0].favoritesCount = '1000000';
@@ -19,7 +20,7 @@ test.beforeEach(async ({ page }) => {
         });
     });
 
-    await page.route('https://conduit-api.bondaracademy.com/api/articles*', async (route) => {
+    await page.route(`${URLs.conduit}/api/articles*`, async (route) => {
         const response = await route.fetch();
         const responseJSON = await response.json();
         const searchText = "Bondar Academy";
@@ -39,7 +40,7 @@ test.beforeEach(async ({ page }) => {
             json: responseJSON
         });
     });
-    await page.goto('https://conduit.bondaracademy.com/');
+    await page.goto(URLs.conduit);
 })
 
 test('Mocking API', async ({ page }) => {

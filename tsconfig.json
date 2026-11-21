@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "strict": true,
     "types": [
-      "node"
+      "node",
+      "@playwright@latest"
     ],
     "typeRoots": [
       "node_modules/@types"
